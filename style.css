@@ -321,7 +321,7 @@ html, body {
   @media screen and (max-width: 980px) and (orientation: portrait) {
 
     #header {
-      padding: 6em 3em 4em 3em ;
+      padding: 0em 3em 4em 3em ;
       -moz-flex-direction: column-reverse;
       -webkit-flex-direction: column-reverse;
       -ms-flex-direction: column-reverse;
@@ -361,7 +361,7 @@ html, body {
   @media screen and (max-width: 736px) and (orientation: landscape) {
 
     #header {
-      padding: 2em 2em 0.1em 2em ;
+      padding: 0em 2em 0.1em 2em ;
     }
 
       #header .content {
@@ -396,7 +396,7 @@ html, body {
 @media screen and (max-width: 480px) and (orientation: landscape) {
 
   #header {
-    padding: 2em 1.5em 0.1em 1.5em ;
+    padding: 0em 1.5em 0.1em 1.5em ;
   }
 
     #header .image {
@@ -412,7 +412,7 @@ html, body {
 @media screen and (max-width: 480px) and (orientation: portrait) {
 
   #header {
-    padding: 2em 1em 0.1em 1em ;
+    padding: 0em 1em 0.1em 1em ;
   }
 
 }
