@@ -15,7 +15,8 @@ html, body {
 /* Header */
 
 #header {
-  background-color: #4696e5;
+  /* background-color: #4696e5; */
+  background-color: #3E97FF;
   color: #d1e5f9;
   -moz-align-items: center;
   -webkit-align-items: center;
