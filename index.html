@@ -159,9 +159,9 @@
             <div class="bg-white rounded-lg p-4 border border-gray-200 shadow-sm text-left">
               <div class="flex items-center justify-between mb-2">
                 <h3 class="font-medium" x-text="service.name"></h3>
-                <span :class="service.status === 'up' ? 'bg-green-500' : 'bg-red-500'"
+                <span :class="service.inMaintenance ? 'bg-amber-100 text-amber-800' : (service.status === 'up' ? 'bg-green-500 text-white' : 'bg-red-500 text-white')"
                       class="px-2 py-1 rounded text-xs font-semibold uppercase">
-                  <span x-text="service.status"></span>
+                  <span x-text="service.inMaintenance ? 'MAINTENANCE' : service.status"></span>
                 </span>
               </div>
               <div class="text-sm text-gray-600">
@@ -246,6 +246,23 @@
             const statusRes = await fetch('https://status.hstles.com/history/summary.json');
             if (statusRes.ok) {
               this.statusData = await statusRes.json();
+
+              // Check each service against maintenance windows
+              this.statusData.forEach(service => {
+                // Check if service is in underDevelopment list
+                const isDev = this.config.sites.underDevelopment.some(site =>
+                  service.url.includes(site.domain)
+                );
+
+                // Check if service is in underMaintenance list
+                const isMaint = this.config.sites.underMaintenance.some(site =>
+                  service.url.includes(site.url)
+                );
+
+                if (isDev || isMaint) {
+                  service.inMaintenance = true;
+                }
+              });
             }
           } catch (e) {
             console.log('Could not fetch live status:', e.message);
