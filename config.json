@@ -1,0 +1,50 @@
+{
+  "sites": {
+    "underDevelopment": [
+      {
+        "name": "Login Service",
+        "url": "login.hstles.com",
+        "domain": "login.hstles.com",
+        "description": "Authentication and identity management service",
+        "expectedLaunch": "2026-Q2",
+        "maintenanceStart": "2026-01-30",
+        "maintenanceEnd": "2026-04-01"
+      },
+      {
+        "name": "Support Portal",
+        "url": "support.hstles.com",
+        "domain": "support.hstles.com",
+        "description": "Customer support ticketing and knowledge base",
+        "expectedLaunch": "2026-Q2",
+        "maintenanceStart": "2026-01-30",
+        "maintenanceEnd": "2026-04-01"
+      },
+      {
+        "name": "Management Console",
+        "url": "manage.hstles.com",
+        "domain": "manage.hstles.com",
+        "description": "Unified management dashboard for personal and organizational contexts",
+        "expectedLaunch": "2026-Q2",
+        "maintenanceStart": "2026-01-30",
+        "maintenanceEnd": "2026-04-01"
+      },
+      {
+        "name": "API Gateway",
+        "url": "api.hstles.com",
+        "domain": "api.hstles.com",
+        "description": "RESTful API gateway for HSTLES services",
+        "expectedLaunch": "2026-Q2",
+        "maintenanceStart": "2026-01-30",
+        "maintenanceEnd": "2026-04-01"
+      }
+    ],
+    "underMaintenance": [],
+    "scheduledMaintenance": []
+  },
+  "branding": {
+    "title": "Service Temporarily Unavailable",
+    "subtitle": "We're working to bring this service online as quickly as possible",
+    "supportEmail": "support@hstles.com",
+    "statusPageUrl": "https://status.hstles.com"
+  }
+}

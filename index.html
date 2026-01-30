@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Standard HSTLES head from Design Guide -->
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+  <title>Under Maintenance - HSTLES</title>
+
+  <!-- Favicons -->
+  <link href="https://cdn.jsdelivr.net/gh/HSTLES/shared-assets@latest/media/brand/favicons/hstles.png" rel="shortcut icon"/>
+  <link href="images/hstles.png" rel="icon"/>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'hstles-primary': '#3486F1',
+            'hstles-primary-hover': '#3089e2',
+            'hstles-secondary': '#43CCBD',
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Font Awesome 6.6.0 -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet"/>
+
+  <!-- Alpine.js -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <!-- Custom styles for background pattern and animations -->
+  <style>
+    .bg-pattern {
+      background-color: #ffffff;
+      background-image: url("images/pattern-size1.svg");
+      background-position: center center;
+      background-attachment: fixed;
+      background-size: cover;
+      opacity: 0.05;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: -1;
+    }
+    @media (max-width: 1280px) {
+      .bg-pattern { background-image: url("images/pattern-size2.svg"); }
+    }
+    @media (max-width: 736px) {
+      .bg-pattern { background-image: url("images/pattern-size3.svg"); }
+    }
+
+    @keyframes spin-reverse {
+      from { transform: rotate(360deg); }
+      to { transform: rotate(0deg); }
+    }
+
+    .animate-spin-slow {
+      animation: spin-reverse 1s linear infinite;
+      transform: translateY(-2rem);
+    }
+
+    .animate-spin-slower {
+      animation: spin-reverse 2s linear infinite;
+      transform: translateY(1rem);
+    }
+  </style>
+</head>
+<body class="font-['Inter',sans-serif] bg-gray-50">
+  <!-- Background pattern -->
+  <div class="bg-pattern"></div>
+
+  <!-- Main content area with Alpine.js -->
+  <div x-data="maintenancePage()" x-init="init()" class="min-h-screen flex items-center justify-center px-4 py-12">
+    <div class="text-center text-gray-900 max-w-4xl w-full">
+      <!-- HSTLES Logo -->
+      <div class="mb-8 flex justify-center">
+        <img src="images/logo-cropped.svg" alt="HSTLES" class="h-24 md:h-32 w-auto"/>
+      </div>
+
+      <!-- Animated spinning cogs (Font Awesome 6.6.0) - Hidden for now -->
+      <!-- <div class="mb-8 flex items-center justify-center gap-4 text-hstles-primary">
+        <i class="fa-solid fa-gear text-2xl animate-spin-slow"></i>
+        <i class="fa-solid fa-gear text-7xl animate-spin"></i>
+        <i class="fa-solid fa-gear text-5xl animate-spin-slower"></i>
+      </div> -->
+
+      <!-- Main heading -->
+      <h1 class="text-4xl md:text-5xl font-bold uppercase mb-6 tracking-wide text-gray-900" x-text="config.branding.title">
+        Service Temporarily Unavailable
+      </h1>
+
+      <p class="text-xl md:text-2xl mb-12 text-gray-600" x-text="config.branding.subtitle">
+        We're working to bring this service online as quickly as possible
+      </p>
+
+      <!-- Sites under development -->
+      <div x-show="config.sites.underDevelopment.length > 0" class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4">Under Development</h2>
+        <div class="space-y-4">
+          <template x-for="site in config.sites.underDevelopment" :key="site.url">
+            <div class="bg-white rounded-lg p-6 border border-gray-200 shadow-sm text-left">
+              <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
+                <h3 class="font-semibold text-lg text-gray-900" x-text="site.name"></h3>
+                <a :href="'https://' + site.domain" target="_blank"
+                   class="inline-flex items-center gap-1 text-sm font-mono text-hstles-primary hover:text-hstles-primary-hover">
+                  <span x-text="site.domain"></span>
+                  <i class="fa-solid fa-external-link text-xs"></i>
+                </a>
+              </div>
+              <p class="text-sm text-gray-600 mb-3" x-text="site.description"></p>
+              <div class="flex flex-wrap gap-3 text-xs text-gray-500">
+                <span>
+                  <i class="fa-solid fa-calendar mr-1"></i>
+                  Expected Launch: <span class="font-medium" x-text="site.expectedLaunch"></span>
+                </span>
+                <span x-show="site.maintenanceStart">
+                  <i class="fa-solid fa-wrench mr-1"></i>
+                  Maintenance: <span class="font-medium" x-text="site.maintenanceStart + ' - ' + site.maintenanceEnd"></span>
+                </span>
+              </div>
+            </div>
+          </template>
+        </div>
+      </div>
+
+      <!-- Sites under maintenance -->
+      <div x-show="config.sites.underMaintenance.length > 0" class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4">Currently Under Maintenance</h2>
+        <div class="space-y-4">
+          <template x-for="site in config.sites.underMaintenance" :key="site.url">
+            <div class="bg-white rounded-lg p-6 border border-gray-200 shadow-sm text-left">
+              <h3 class="font-semibold text-lg mb-2" x-text="site.name"></h3>
+              <p class="text-sm text-gray-600 mb-2" x-text="site.reason"></p>
+              <p class="text-xs text-gray-500">
+                Since: <span x-text="formatDate(site.since)"></span>
+              </p>
+              <p class="text-xs text-[#b5d5f5]">
+                Expected completion: <span x-text="formatDate(site.estimatedCompletion)"></span>
+              </p>
+            </div>
+          </template>
+        </div>
+      </div>
+
+      <!-- Live status integration -->
+      <div x-show="statusData.length > 0" class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4">Service Status</h2>
+        <div class="grid md:grid-cols-2 gap-4">
+          <template x-for="service in statusData" :key="service.slug">
+            <div class="bg-white rounded-lg p-4 border border-gray-200 shadow-sm text-left">
+              <div class="flex items-center justify-between mb-2">
+                <h3 class="font-medium" x-text="service.name"></h3>
+                <span :class="service.status === 'up' ? 'bg-green-500' : 'bg-red-500'"
+                      class="px-2 py-1 rounded text-xs font-semibold uppercase">
+                  <span x-text="service.status"></span>
+                </span>
+              </div>
+              <div class="text-sm text-gray-600">
+                <p>Uptime: <span x-text="service.uptime"></span></p>
+                <p>Response: <span x-text="service.time + 'ms'"></span></p>
+              </div>
+            </div>
+          </template>
+        </div>
+      </div>
+
+      <!-- Scheduled maintenance -->
+      <div x-show="config.sites.scheduledMaintenance.length > 0" class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4">Scheduled Maintenance</h2>
+        <div class="space-y-4">
+          <template x-for="maint in config.sites.scheduledMaintenance" :key="maint.url + maint.scheduledStart">
+            <div class="bg-amber-50 rounded-lg p-6 border border-amber-200 shadow-sm text-left">
+              <h3 class="font-semibold text-lg mb-2 text-gray-900" x-text="maint.name"></h3>
+              <p class="text-sm text-gray-700 mb-2" x-text="maint.reason"></p>
+              <p class="text-xs text-gray-600">
+                <i class="fa-solid fa-clock mr-1"></i>
+                <span x-text="formatDate(maint.scheduledStart)"></span> -
+                <span x-text="formatDate(maint.scheduledEnd)"></span>
+              </p>
+              <p class="text-xs text-gray-600 mt-2">
+                <i class="fa-solid fa-info-circle mr-1"></i>
+                <span x-text="maint.impact"></span>
+              </p>
+            </div>
+          </template>
+        </div>
+      </div>
+
+      <!-- Footer links -->
+      <div class="mt-12 text-sm text-gray-600">
+        <a :href="config.branding.statusPageUrl" target="_blank" class="hover:text-hstles-primary transition-colors mr-6 inline-block">
+          <i class="fa-solid fa-chart-line mr-2"></i>Full Status Page
+        </a>
+        <a :href="'mailto:' + config.branding.supportEmail" class="hover:text-hstles-primary transition-colors inline-block">
+          <i class="fa-solid fa-envelope mr-2"></i>Contact Support
+        </a>
+      </div>
+
+      <!-- HSTLES branding footer -->
+      <div class="mt-8 text-xs text-gray-500">
+        <p>2026 © <a href="https://hstles.com" class="hover:text-hstles-primary transition-colors">HSTLES</a> | Beyond hosting. Into solving.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function maintenancePage() {
+      return {
+        config: {
+          sites: {
+            underDevelopment: [],
+            underMaintenance: [],
+            scheduledMaintenance: []
+          },
+          branding: {
+            title: 'Under Maintenance',
+            subtitle: 'Our team is working to improve your experience',
+            supportEmail: 'support@hstles.com',
+            statusPageUrl: 'https://status.hstles.com'
+          }
+        },
+        statusData: [],
+
+        async init() {
+          // Load config
+          try {
+            const configRes = await fetch('./config.json');
+            if (configRes.ok) {
+              this.config = await configRes.json();
+            }
+          } catch (e) {
+            console.log('Using default config:', e.message);
+          }
+
+          // Fetch live status from status.hstles.com
+          try {
+            const statusRes = await fetch('https://status.hstles.com/history/summary.json');
+            if (statusRes.ok) {
+              this.statusData = await statusRes.json();
+            }
+          } catch (e) {
+            console.log('Could not fetch live status:', e.message);
+          }
+        },
+
+        formatDate(dateString) {
+          if (!dateString) return 'N/A';
+          const date = new Date(dateString);
+          return date.toLocaleString('en-AU', {
+            dateStyle: 'medium',
+            timeStyle: 'short',
+            timeZone: 'Australia/Sydney'
+          });
+        }
+      }
+    }
+  </script>
+</body>
+</html>
